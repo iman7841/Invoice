@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.c3p0.validate">true</property>
+		<property name="connection.autoReconnect">true</property>
+		<property name="connection.autoReconnectForPools">true</property>
+		<property name="connection.is-connection-validation-required">true</property>
+
+		
+		<mapping class="tech.test.model.ProductMaster"/>
+		<mapping class="tech.test.model.ProductCategoryMaster"/>
+		<mapping class="tech.test.model.ProductSalesTaxMaster"/>
+		<mapping class="tech.test.model.InvoiceMaster"/>
+		<mapping class="tech.test.model.InvoiceItemMaster"/>
+	</session-factory>
+
+
+</hibernate-configuration>
