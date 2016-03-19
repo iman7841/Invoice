@@ -22,6 +22,9 @@ public class InvoiceItemMaster {
 	
 	@Column(name = "product_count", length = 10)
 	private int productCount;
+	 
+	@Column(name = "product_sales_tax", length = 10)
+	private double productSalesTax;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "invoice_id")
@@ -64,4 +67,13 @@ public class InvoiceItemMaster {
 	public void setProductCount(int productCount) {
 		this.productCount = productCount;
 	}
+
+	public double getProductSalesTax() {
+		return productSalesTax;
+	}
+
+	public void setProductSalesTax(double productSalesTax) {
+		this.productSalesTax = productSalesTax;
+	}
+	
 }

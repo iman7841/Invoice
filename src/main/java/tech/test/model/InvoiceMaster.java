@@ -35,6 +35,9 @@ public class InvoiceMaster {
 	@Column(name = "invoice_total", length = 10)
 	private double invoiceTotal;
 	
+	@Column(name = "invoice_total_sales_tax", length = 10)
+	private double invoiceTotalSalesTax;
+	
 	@OneToMany(mappedBy="invoiceMaster", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InvoiceItemMaster> invoiceItemMaster;
 
@@ -84,5 +87,13 @@ public class InvoiceMaster {
 
 	public void setInvoiceItemMaster(Set<InvoiceItemMaster> invoiceItemMaster) {
 		this.invoiceItemMaster = invoiceItemMaster;
+	}
+
+	public double getInvoiceTotalSalesTax() {
+		return invoiceTotalSalesTax;
+	}
+
+	public void setInvoiceTotalSalesTax(double invoiceTotalSalesTax) {
+		this.invoiceTotalSalesTax = invoiceTotalSalesTax;
 	}
 }

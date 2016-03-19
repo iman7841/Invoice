@@ -29,7 +29,7 @@ public class InvoiceDaoImpl implements InvoiceDao {
 	
 	public InvoiceMaster addProductToBill(int invoiceId, int productId) {
 		int productCategoryId, productCount = 0;
-		double productFinalCost, productSalesTaxValue, productCost, invoiceTotal;
+		double productFinalCost, productSalesTaxValue, productCost, invoiceTotal, invoiceTotalSalesTax, prodSalesTaxValue;
 		InvoiceMaster invoiceMaster = null;
 		ProductMaster productMaster = null;
 		InvoiceItemMaster invoiceItemMaster = null;
@@ -45,15 +45,6 @@ public class InvoiceDaoImpl implements InvoiceDao {
 				criteriaInvoiceItemMaster.add(Restrictions.eq("productMaster", productMaster));
 				List<InvoiceItemMaster> invoiceItems = (ArrayList<InvoiceItemMaster>) criteriaInvoiceItemMaster.list();
 				
-				if (invoiceItems.size() != 0) {
-					invoiceItemMaster = invoiceItems.get(0);
-					productCount = invoiceItemMaster.getProductCount();
-					invoiceItemMaster.setProductCount(productCount + 1);
-				} else {			
-					invoiceItemMaster = new InvoiceItemMaster();
-					invoiceItemMaster.setProductCount(1);
-				}
-				
 				productCategoryId = productMaster.getProductCategoryMaster().getId();
 								
 				ProductSalesTaxMaster productSalesTaxMaster = (ProductSalesTaxMaster) session.get(ProductSalesTaxMaster.class, productCategoryId);
@@ -68,9 +59,26 @@ public class InvoiceDaoImpl implements InvoiceDao {
 				
 				invoiceTotal = invoiceTotal + productFinalCost;
 				
+				invoiceTotalSalesTax = invoiceMaster.getInvoiceTotalSalesTax();
+				
+				invoiceTotalSalesTax = invoiceTotalSalesTax + productSalesTaxValue; 
+				
 				invoiceMaster.setInvoiceTotal(invoiceTotal);
+				invoiceMaster.setInvoiceTotalSalesTax(invoiceTotalSalesTax);
 				invoiceMaster.setInvoiceStatus(1);
 	
+				if (invoiceItems.size() != 0) {
+					invoiceItemMaster = invoiceItems.get(0);
+					productCount = invoiceItemMaster.getProductCount();
+					invoiceItemMaster.setProductCount(productCount + 1);
+					prodSalesTaxValue = invoiceItemMaster.getProductSalesTax();
+					invoiceItemMaster.setProductSalesTax(prodSalesTaxValue + productSalesTaxValue);
+				} else {			
+					invoiceItemMaster = new InvoiceItemMaster();
+					invoiceItemMaster.setProductCount(1);
+					invoiceItemMaster.setProductSalesTax(productSalesTaxValue);
+				}
+				
 				invoiceItemMaster.setInvoiceMaster(invoiceMaster);
 				invoiceItemMaster.setProductMaster(productMaster);
 				
